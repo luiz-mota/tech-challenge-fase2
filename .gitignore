@@ -1,0 +1,39 @@
+# Credenciais e segredos (NUNCA versionar)
+.env
+*-key.json
+*service-account*.json
+credentials.json
+sa-key.json
+*.pem
+tech-challenge-fase2-*.json
+
+# Dados locais (bronze/silver/gold ficam em GCS, não no repo)
+data/*
+!data/.gitkeep
+*.parquet
+*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+venv/
+.venv/
+env/
+build/
+dist/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

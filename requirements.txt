@@ -1,0 +1,17 @@
+# Ingestão de dados públicos (Base dos Dados / BigQuery)
+google-cloud-bigquery
+google-cloud-storage
+db-dtypes
+
+# Streaming simulado
+kafka-python
+
+# Processamento e armazenamento colunar
+pandas
+pyarrow
+
+# Configuração de ambiente
+python-dotenv
+
+# Qualidade e testes
+pytest
