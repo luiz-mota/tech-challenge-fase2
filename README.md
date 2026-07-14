@@ -94,8 +94,18 @@ para BI/ML).
   não comporta a curva de aprendizado do framework; as checagens pedidas
   (duplicidade, nulos, chave, consistência) são implementáveis diretamente em
   Pandas com mesma cobertura funcional.
+- **Data lake (GCS) para Bronze/Silver + data warehouse (BigQuery) para Gold**:
+  em vez de escolher um dos dois, a pipeline usa cada um onde é mais forte.
+  Bronze/Silver ficam em GCS como Parquet particionado — barato para reter
+  histórico raw e dados intermediários que não precisam de SQL direto. Gold
+  vai para tabelas nativas do BigQuery — formato colunar já indexado para
+  consulta analítica ad-hoc e conexão com BI, sem exigir um engine de query
+  separado sobre o lake. O custo de mover Gold para o warehouse é irrelevante
+  aqui (poucos MB, seção 5), então o trade-off é puramente a favor de
+  performance de consulta na camada que efetivamente é consultada com
+  frequência.
 
-## 5. FinOps
+## 5. FinOps e Monitoramento
 
 Custo real medido para uma execução completa (todos os municípios, 2 anos):
 **R$ 0,00** — dentro do free tier do GCP (1 TB de consultas BigQuery/mês, 5 GB de
@@ -104,6 +114,17 @@ custo projetado continua R$ 0,00 (BigQuery usaria ~0,3% da cota gratuita mensal)
 
 Detalhamento completo, incluindo o ponto de atenção sobre retenção de partições
 Bronze em cadência diária, está em [`docs/estimativa_custos.md`](docs/estimativa_custos.md).
+
+**Monitoramento**: cada módulo (`ingestion`, `bronze`, `silver`, `gold`) usa um
+logger estruturado comum (`src/utils/logging_config.py`), emitindo timestamp,
+nível e origem a cada etapa — volume de linhas processadas, sucesso/falha de
+escrita no GCS/BigQuery, e cada achado de qualidade classificado (`quality_checks.py`
+loga Crítico/Alerta por checagem, além de persistir o log de quarentena em
+`silver/quarentena/`). Isso cobre o essencial para depuração manual (falha de
+ingestão, volume, alertas de qualidade) neste projeto solo de curto prazo; um
+dashboard de observabilidade (latência histórica, alertas automáticos) é a
+evolução natural, mas fora do escopo de tempo — os logs estruturados já
+permitem plugar em uma ferramenta como Cloud Logging sem mudança de código.
 
 ## 6. Aplicação em IA
 
