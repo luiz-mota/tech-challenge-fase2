@@ -37,3 +37,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Docs internos (não fazem parte da entrega, ficam só locais)
+docs/CLAUDE.md
+docs/PLANO.md
+docs/roteiro_video.md

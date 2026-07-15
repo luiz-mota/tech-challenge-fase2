@@ -146,9 +146,16 @@ queries), mas naturalmente extensível para um modelo supervisionado.
 
 ## 7. Estrutura do repositório
 
-Ver [`docs/PLANO.md`](docs/PLANO.md) para o cronograma completo e
-[`docs/CLAUDE.md`](docs/CLAUDE.md) para as regras fixas do projeto (particionamento,
-segurança, convenções).
+```
+src/
+├── ingestion/   # batch_basedosdados.py, kafka_producer.py, kafka_consumer.py
+├── bronze/      # ingest_to_bronze.py
+├── silver/      # clean_transform.py, integrate_sources.py, quality_checks.py
+├── gold/        # build_indicador_municipio.py, build_metas_vs_resultados.py, build_evolucao_temporal.py
+└── utils/       # gcs_helpers.py, bq_helpers.py, logging_config.py
+tests/           # cobertura de quality_checks.py
+docs/            # docs/estimativa_custos.md — detalhamento do FinOps (seção 5)
+```
 
 ## 8. Como rodar
 
