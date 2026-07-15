@@ -70,6 +70,13 @@ para BI/ML).
 
 ## 4. Trade-offs e decisões
 
+- **GCP em vez de AWS/Azure**: a Base dos Dados hospeda as tabelas de origem
+  nativamente como datasets públicos no BigQuery — em GCP a ingestão batch é
+  uma consulta SQL direta; em AWS ou Azure seria necessário exportar os dados
+  primeiro, gerando trabalho de integração extra sem ganho para o desafio.
+  Bônus: free tier generoso (1 TB de consultas BigQuery/mês, 5 GB de GCS)
+  sustenta o custo zero medido na seção 5.
+  
 - **Kafka standalone em vez de Docker Compose**: a máquina de desenvolvimento é
   corporativa e a instalação do Docker Desktop exigiria WSL2 + reinício +
   aprovação de TI (licenciamento Docker Business). O `docker-compose.yml` está no
